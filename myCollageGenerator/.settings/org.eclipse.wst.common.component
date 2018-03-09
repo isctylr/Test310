@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+        
+    <wb-module deploy-name="myCollageGenerator">
+                
+        <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
+                
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <dependent-module archiveName="jmagick.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/myCollageGenerator/lib/jmagick.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="gson-2.6.2.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/myCollageGenerator/lib/gson-2.6.2.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+                
+        <property name="context-root" value="myCollageGenerator"/>
+                
+        <property name="java-output-path" value="/myCollageGenerator/build/classes"/>
+            
+    </wb-module>
+    
+</project-modules>
