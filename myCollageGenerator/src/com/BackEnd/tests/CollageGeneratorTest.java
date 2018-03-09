@@ -4,6 +4,8 @@ import org.springframework.mock.web.*;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.io.FileFilter;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -14,7 +16,21 @@ import org.junit.Test;
 import com.BackEnd.CollageGenerator;
 
 public class CollageGeneratorTest {
-	
+	private boolean contains(String arr[], String key )
+	{
+		boolean ret=false;
+		for(int i=0;i<arr.length;++i)
+		{
+			
+			if(arr[i].equals(key)) {
+				ret=true;
+				return ret;
+			}
+				
+		}
+		return ret;
+		
+	}
 	
 
 	@Test
@@ -47,11 +63,11 @@ public class CollageGeneratorTest {
 		int numFiles=myFiles.listFiles().length;
 		
 		assertTrue(numFiles==31);
-		assertTrue(myFiles.list()[0]==(System.getProperty("user.dir")+"/gimages/dog/output.png"));
+		assertTrue(contains(myFiles.list(),"output.png"));
 		
 		for(int i=1;i<31;++i)
 		{
-			assertTrue(myFiles.list()[i]==(System.getProperty("user.dir")+"/gimages/dog/dog"+Integer.toString(i-1)+".png"));
+			assertTrue(contains(myFiles.list(),"saved"+Integer.toString(i-1)+".png"));
 		}
 	
 		
@@ -93,7 +109,7 @@ public class CollageGeneratorTest {
 		
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		MockHttpServletResponse response = new MockHttpServletResponse();
-		
+		MockHttpServletResponse response2 = new MockHttpServletResponse();
 		request.setParameter("SearchBox", "dog");
 		
 		try {
@@ -108,7 +124,7 @@ public class CollageGeneratorTest {
 		request.setParameter("SearchBox", "dog");
 		
 		try {
-			mCollageGenerator.doGet(request, response);
+			mCollageGenerator.doGet(request, response2);
 		} catch (ServletException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -121,6 +137,7 @@ public class CollageGeneratorTest {
 		
 		
 		assertTrue(response.getRedirectedUrl()=="CollagePage.jsp");
+		assertTrue(response2.getRedirectedUrl()=="CollagePage.jsp");
 		ArrayList<String> queries=(ArrayList<String>)request.getSession().getAttribute("queryList");
 		String query= (String)request.getSession().getAttribute("query");
 		assertTrue(query=="dog");
@@ -130,11 +147,11 @@ public class CollageGeneratorTest {
 		int numFiles=myFiles.listFiles().length;
 		
 		assertTrue(numFiles==31);
-		assertTrue(myFiles.list()[0]==(System.getProperty("user.dir")+"/gimages/dog/output.png"));
+		assertTrue(contains(myFiles.list(),"output.png"));
 		
 		for(int i=1;i<31;++i)
 		{
-			assertTrue(myFiles.list()[i]==(System.getProperty("user.dir")+"/gimages/dog/dog"+Integer.toString(i-1)+".png"));
+			assertTrue(contains(myFiles.list(),"saved"+Integer.toString(i-1)+".png"));
 		}
 	
 	}
@@ -145,6 +162,7 @@ public class CollageGeneratorTest {
 		
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		MockHttpServletResponse response = new MockHttpServletResponse();
+		MockHttpServletResponse response2 = new MockHttpServletResponse();
 		
 		request.setParameter("SearchBox", "dog");
 		
@@ -160,7 +178,7 @@ public class CollageGeneratorTest {
 		request.setParameter("SearchBox", "cat");
 		
 		try {
-			mCollageGenerator.doGet(request, response);
+			mCollageGenerator.doGet(request, response2);
 		} catch (ServletException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -173,6 +191,7 @@ public class CollageGeneratorTest {
 		
 		
 		assertTrue(response.getRedirectedUrl()=="CollagePage.jsp");
+		assertTrue(response2.getRedirectedUrl()=="CollagePage.jsp");
 		ArrayList<String> queries=(ArrayList<String>)request.getSession().getAttribute("queryList");
 		String query= (String)request.getSession().getAttribute("query");
 		assertTrue(query=="cat");
@@ -183,22 +202,29 @@ public class CollageGeneratorTest {
 		int numFiles=myFiles.listFiles().length;
 		
 		assertTrue(numFiles==31);
-		assertTrue(myFiles.list()[0]==(System.getProperty("user.dir")+"/gimages/dog/output.png"));
+		
+		assertTrue(contains(myFiles.list(),"output.png"));
 		
 		for(int i=1;i<31;++i)
 		{
-			assertTrue(myFiles.list()[i]==(System.getProperty("user.dir")+"/gimages/dog/dog"+Integer.toString(i-1)+".png"));
+			assertTrue(contains(myFiles.list(),"saved"+Integer.toString(i-1)+".png"));
 		}
 		
 		File myFiles2= new File("gimages/cat");
 		int numFiles2=myFiles2.listFiles().length;
 		
 		assertTrue(numFiles2==31);
-		assertTrue(myFiles2.list()[0]==(System.getProperty("user.dir")+"/gimages/cat/output.png"));
+		File myFilter= new File("output.png");
+		assertTrue(contains(myFiles2.list(), "output.png"));
+		
+		
+		
+		
 		
 		for(int i=1;i<31;++i)
 		{
-			assertTrue(myFiles2.list()[i]==(System.getProperty("user.dir")+"/gimages/cat/cat"+Integer.toString(i-1)+".png"));
+			
+			assertTrue(contains(myFiles2.list(),"saved"+Integer.toString(i-1)+".png" ));
 		}
 	
 	}
@@ -210,7 +236,7 @@ public class CollageGeneratorTest {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		MockHttpServletResponse response = new MockHttpServletResponse();
 		
-		request.setParameter("SearchBox", "houses");
+		request.setParameter("SearchBox", "house");
 		
 		try {
 			mCollageGenerator.doGet(request, response);
@@ -228,19 +254,20 @@ public class CollageGeneratorTest {
 		assertTrue(response.getRedirectedUrl()=="CollagePage.jsp");
 		ArrayList<String> queries=(ArrayList<String>)request.getSession().getAttribute("queryList");
 		String query= (String)request.getSession().getAttribute("query");
-		assertTrue(query=="houses");
+		assertTrue(query=="house");
 		assertTrue(queries.size()==1);
-		assertTrue(queries.get(0)=="houses");
+		assertTrue(queries.get(0)=="house");
 		
-		File myFiles= new File("gimages/houses");
+		File myFiles= new File("gimages/house");
 		int numFiles=myFiles.listFiles().length;
-		
+
 		assertTrue(numFiles==31);
-		assertTrue(myFiles.list()[0]==(System.getProperty("user.dir")+"/gimages/houses/output.png"));
+		
+		assertTrue(contains(myFiles.list(), "output.png"));
 		
 		for(int i=1;i<31;++i)
 		{
-			assertTrue(myFiles.list()[i]==(System.getProperty("user.dir")+"/gimages/houses/houses"+Integer.toString(i-1)+".png"));
+			assertTrue(contains(myFiles.list(), "saved"+Integer.toString(i-1)+".png"));
 		}
 		
 	
