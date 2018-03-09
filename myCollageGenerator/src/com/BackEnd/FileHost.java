@@ -35,8 +35,9 @@ public class FileHost extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		 String filename = URLDecoder.decode(request.getPathInfo().substring(1), "UTF-8");
+	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// System.out.println("junk: "+request.getPathInfo());
+		String filename = URLDecoder.decode(request.getPathInfo().substring(1), "UTF-8");
 	        java.io.File file = new java.io.File("/home/student/eclipse/jee-oxygen/eclipse/gimages/"+ filename);
 	        response.setHeader("Content-Type", getServletContext().getMimeType(filename));
 	        response.setHeader("Content-Length", String.valueOf(file.length()));
